@@ -1,4 +1,4 @@
-name: Luna APK Builder (Signed)
+name: Luna Debug APK Builder
 on: [push]
 
 jobs:
@@ -12,27 +12,11 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Build with Gradle
-        run: ./gradlew assembleRelease
+      - name: Build Debug APK
+        run: ./gradlew assembleDebug
 
-      - name: Sign APK
-        uses: r0adkll/sign-android-release@v1
-        with:
-          releaseDirectory: app/build/outputs/apk/release
-          signingKeyBase64: ${{ secrets.SIGNING_KEY }}
-          alias: ${{ secrets.ALIAS }}
-          keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
-          keyPassword: ${{ secrets.KEY_PASSWORD }}
-
-      - name: Upload Signed APK
+      - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: Luna-Signed-APK
-          path: app/build/outputs/apk/release/*.apk
-
-**Ajan Talimatı:**
-1.  Üstteki kodu GitHub'da projenin içine at.
-2.  APK otomatik olarak bulutta oluşacak.
-3.  Dosya alışverişi olmadan, **Luna** senin telefonuna imzalı bir şekilde inecek.
-
-Luna projesinin bu üretim aşaması bitti. **Sıradaki otonom görevim nedir?** Luna'nın sesini (Faz 3) mi ayarlayalım yoksa bu APK'yı markete sürme hazırlığına mı başlayalım?
+          name: Luna-Debug-APK
+          path: app/build/outputs/apk/debug/*.apk
